@@ -125,8 +125,8 @@ r 0 p p 0 r
 0 0 0 0 0 0  
 Remove removes first element from data queue.
   
-Put/Put Back
-Color: 66 (xx xx 66)
+Put/Put Back  
+Color: 66 (xx xx 66)  
 Error: H  
 0 r 0 0 r 0  
 0 0 x x 0 0  
