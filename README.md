@@ -48,7 +48,7 @@ f - topleft or downleft area (same pixels)
 g - downright or topright area (same pixels)  
 h - downleft or downright area (same pixels)  
 p - first pixel  
-Area color is saved in red and green color byte of pixel, here is structure of bytes representing color of singular pixel:
+Area color is saved in red and green color byte of pixel, here is structure of bytes representing color of singular pixel:  
 aa aa cc  
 aa - area color  
 cc - command color  
@@ -60,3 +60,70 @@ FF FF - downleft area
 
 COMMANDS
 --------
+There are 7 commands in Haiku, their description will have such table:  
+a a a b b b  
+a a a b b b  
+a a p p b b  
+c c p p d d  
+c c c d d d  
+c c c d d d  
+Topleft 3x3 block of this table show correct pixel positions for topleft area (rest does accordingly) where p is first pixel and a,b,c and d can be either 0, r or x. 0 means no pixel (white), r means second pixel for this command and x is data pixel (for Put and If command).  
+  
+  
+Print
+Color: 11 (xx xx 11)    
+Errors: H  
+0 0 0 0 0 0  
+r 0 0 0 0 r  
+0 0 p p 0 0  
+0 0 p p 0 0  
+r 0 0 0 0 r 
+0 0 0 0 0 0  
+Print pops first value from data queue and prints it to screen as ASCII character.  
+  
+Ask  
+Color: 22 (xx xx 22)  
+Errors: none  
+0 0 r r 0 0  
+0 0 0 0 0 0  
+0 0 p p 0 0  
+0 0 p p 0 0  
+0 0 0 0 0 0  
+0 0 r r 0 0  
+Ask ask user for number from 0 to 255 and puts it in data queue.
+  
+Increment  
+Color: 33 (xx xx 33)  
+Errors: H  
+0 0 0 0 0 0  
+0 r 0 0 r 0  
+0 0 p p 0 0  
+0 0 p p 0 0  
+0 r 0 0 r 0 
+0 0 0 0 0 0  
+Increment increments first value in data queue by one.
+  
+Increment  
+Color: 44 (xx xx 44)  
+Errors: H  
+0 0 0 0 0 0  
+0 0 0 0 0 0  
+0 r p p r 0  
+0 r p p r 0  
+0 0 0 0 0 0 
+0 0 0 0 0 0  
+Decrement decrements first value in data queue by one.
+  
+Remove
+Color: 55 (xx xx 55)
+Errors: H  
+0 0 0 0 0 0  
+0 0 0 0 0 0  
+r 0 p p 0 r  
+r 0 p p 0 r  
+0 0 0 0 0 0  
+0 0 0 0 0 0  
+Remove removes first element from data queue.
+  
+Put/Put Back
+Color: 66 (xx xx 66)
