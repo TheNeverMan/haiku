@@ -9,7 +9,7 @@ using namespace std;
 bool is_debug = false;
 //table of pixel data
 int size = 4096;
-unsigned char Table[4096];
+unsigned char Table[1000000]; //lmao get ram lol
 //data queue
 queue<unsigned char> Data_Queue;
 //row length
