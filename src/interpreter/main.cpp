@@ -376,7 +376,7 @@ char Interpret_Command(Command com)
     if(Table[data_pix] == 255 && Table[data_pix + 1] == 255 && Table[data_pix + 1] == 255)
     {
       char c = Data_Queue.front();
-      Data_Queue.pop();
+      //Data_Queue.pop();
       Data_Queue.push(c);
     }
     else
