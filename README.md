@@ -169,4 +169,4 @@ cat.ppm
 This is a cat program, at least its simpliest form. It has queue preloading disabled and its code is composed out of two ask-print instruction. Instructions are pointing to each other so program is infinite. This program shows limitations of Haiku data management, user inputs data to program in decimal format, but output is in ASCII, so in fact this is a binary cat program. Also user can input only one byte (char) at a time.
   
 if.ppm
-This 
+This program shows conditional abilities of Haiku. If user inputs 97 ('a' code in ASCII) program will finish. However if user inputs anything else program will output a and then user inputted data incremented by one. Remember about decimal input.
