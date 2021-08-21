@@ -26,9 +26,9 @@ CODE
 ----
 Each instruction in Haiku is composed out of two pixel combinations on 3x3 grid. Area where interpreter expects to get second pixel is specified by color of first pixel.
 For example if our program looks like this:
- p 0 0
- 0 0 p
- 0 0 0
+ p 0 0  
+ 0 0 p  
+ 0 0 0  
 where first p (top left) is colored pixel pointing to second pixel, this instruction is recognized as Print (pops first element from queue and prints it to screen).
 Every pixel not used by program should be FF FF FF, white coloured. Color of pixel is composed of two colors: area color and pixel (command) color.
 Area color determines 3x3 block where interpreter seeks for next pixel, command color specifies exact command to search for which means correct pixel.
