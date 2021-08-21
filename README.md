@@ -70,7 +70,7 @@ c c c d d d
 Topleft 3x3 block of this table show correct pixel positions for topleft area (rest does accordingly) where p is first pixel and a,b,c and d can be either 0, r or x. 0 means no pixel (white), r means second pixel for this command and x is data pixel (for Put and If command).  
   
   
-Print
+Print  
 Color: 11 (xx xx 11)    
 Errors: H  
 0 0 0 0 0 0  
@@ -99,7 +99,7 @@ Errors: H
 0 r 0 0 r 0  
 0 0 p p 0 0  
 0 0 p p 0 0  
-0 r 0 0 r 0 
+0 r 0 0 r 0  
 0 0 0 0 0 0  
 Increment increments first value in data queue by one.
   
@@ -110,12 +110,12 @@ Errors: H
 0 0 0 0 0 0  
 0 r p p r 0  
 0 r p p r 0  
-0 0 0 0 0 0 
+0 0 0 0 0 0  
 0 0 0 0 0 0  
 Decrement decrements first value in data queue by one.
   
 Remove
-Color: 55 (xx xx 55)
+Color: 55 (xx xx 55)  
 Errors: H  
 0 0 0 0 0 0  
 0 0 0 0 0 0  
@@ -127,3 +127,21 @@ Remove removes first element from data queue.
   
 Put/Put Back
 Color: 66 (xx xx 66)
+Error: H  
+0 r 0 0 r 0  
+0 0 x x 0 0  
+0 0 p p 0 0  
+0 0 x x 0 0  
+0 r 0 0 r 0  
+Put if x pixel is white (00 00 00) copies first element from data queue and puts at the end of queue (Put Back). If x pixel is not white it puts value of first byte of x pixel at the end of data queue (Put).  
+  
+If  
+Color: 77 (xx xx 77)  
+Error: H A  
+r 0 0 0 0 r  
+0 0 x x 0 0  
+0 0 p p 0 0  
+0 0 p p 0 0  
+0 0 x x 0 0  
+r 0 0 0 0 r  
+If checks if first and last element in queue are equal if they are code is executed normally (from r pixel) if they are not equal code jumps to x pixel and treats is as new first pixel (executes code from x pixel).  
