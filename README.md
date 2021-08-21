@@ -114,7 +114,7 @@ Errors: H
 0 0 0 0 0 0  
 Decrement decrements first value in data queue by one.
   
-Remove
+Remove  
 Color: 55 (xx xx 55)  
 Errors: H  
 0 0 0 0 0 0  
@@ -145,3 +145,13 @@ r 0 0 0 0 r
 0 0 x x 0 0  
 r 0 0 0 0 r  
 If checks if first and last element in queue are equal if they are code is executed normally (from r pixel) if they are not equal code jumps to x pixel and treats is as new first pixel (executes code from x pixel).  
+
+ERRORS
+------
+There are five erros in Haiku 3 are bitmap related and two are command related. If command can fail with command error this possible error is in error row in command description. When error occurs code execution is stopped and error code char is printed on screen.
+Error list:  
+1. Queue is empty. (Error code H) This error occurs when command tries to remove something from queue when queue is empty.
+2. Queue is too small. (Error code A) This error occurs when queue is too small for If comparision.
+3. Invalid Pixel. (Error code I) This error occurs when pixel is pointing to a pixel which is beyond bounds of bitmap.
+4. White Pixel. (Error code K) This error occurs when next executed pixel is white.
+5. Invalid Color. (Error code U) This error occurs when pixel has invalid color.
