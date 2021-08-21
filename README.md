@@ -25,7 +25,7 @@ Data Structure of Haiku source code:
 CODE
 ----
 Each instruction in Haiku is composed out of two pixel combinations on 3x3 grid. Area where interpreter expects to get second pixel is specified by color of first pixel.
-For example if our program looks like this:
+For example if our program looks like this:  
  p 0 0  
  0 0 p  
  0 0 0  
@@ -33,4 +33,30 @@ where first p (top left) is colored pixel pointing to second pixel, this instruc
 Every pixel not used by program should be FF FF FF, white coloured. Color of pixel is composed of two colors: area color and pixel (command) color.
 Area color determines 3x3 block where interpreter seeks for next pixel, command color specifies exact command to search for which means correct pixel.
 After executing command interpreter jumps to second pixel of last command and treats it like new first pixel and then again jumps to next second pixel, that is
-the interpreter loop. If first pixel is black (00 00 00) program execution will stop.
+the interpreter loop. If first pixel is black (00 00 00) program execution will stop. Here are areas that could be specified by area color:  
+a a e b b  
+a a e b b  
+f f p g g  
+c c h d d  
+c c h d d  
+a - topleft area  
+b - topright area  
+c - downleft area  
+d - downright area  
+e - topleft or topright area (same pixels)  
+f - topleft or downleft area (same pixels)  
+g - downright or topright area (same pixels)  
+h - downleft or downright area (same pixels)  
+p - first pixel  
+Area color is saved in red and green color byte of pixel, here is structure of bytes representing color of singular pixel:
+aa aa cc  
+aa - area color  
+cc - command color  
+Valid area colors are:
+00 00 - topright area  
+00 FF - topleft area  
+FF 00 - downright area
+FF FF - downleft area  
+
+COMMANDS
+--------
