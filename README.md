@@ -148,10 +148,25 @@ If checks if first and last element in queue are equal if they are code is execu
 
 ERRORS
 ------
-There are five erros in Haiku 3 are bitmap related and two are command related. If command can fail with command error this possible error is in error row in command description. When error occurs code execution is stopped and error code char is printed on screen.
+There are five erros in Haiku. 3 are bitmap related and two are command related. If command can fail with command error this possible error is in error row in command description. When error occurs code execution is stopped and error code char is printed on screen.
 Error list:  
 1. Queue is empty. (Error code H) This error occurs when command tries to remove something from queue when queue is empty.
 2. Queue is too small. (Error code A) This error occurs when queue is too small for If comparision.
 3. Invalid Pixel. (Error code I) This error occurs when pixel is pointing to a pixel which is beyond bounds of bitmap.
 4. White Pixel. (Error code K) This error occurs when next executed pixel is white.
 5. Invalid Color. (Error code U) This error occurs when pixel has invalid color.
+
+DATA
+----
+Data in Haiku is stored in single byte FIFO queue. Amount of data cells is not limited by program. Data printed to screen is printed as ASCII not numbers, which makes printing out numbers complicated (you can see that in cat program). However user inputs data in decimal format (to allow inputs bigger than 127 and smaller than 34).
+
+SAMPLE PROGRAMS
+---------------
+hello.ppm  
+This is a Hello World program. It is using queue preloading (you can see that first row of image is not empty). The entire code here are just two Print instruction pointing to each other, this is an infinite loop, however when whole queue is emptied the program will end with error code H. So in fact this is simpliest Hello World program, but not errorless  
+  
+cat.ppm  
+This is a cat program, at least its simpliest form. It has queue preloading disabled and its code is composed out of two ask-print instruction. Instructions are pointing to each other so program is infinite. This program shows limitations of Haiku data management, user inputs data to program in decimal format, but output is in ASCII, so in fact this is a binary cat program. Also user can input only one byte (char) at a time.
+  
+if.ppm
+This 
