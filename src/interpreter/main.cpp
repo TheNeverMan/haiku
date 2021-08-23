@@ -8,7 +8,7 @@
 using namespace std;
 bool is_debug = false;
 //table of pixel data
-int size = 4096;
+int size = 1000000;
 unsigned char Table[1000000]; //lmao get ram lol
 //data queue
 queue<unsigned char> Data_Queue;
@@ -85,7 +85,7 @@ int Get_Row_Length()
     }
     i++;
   }
-  return i;
+  return i; //first pixel with 255 data in red color byte
 }
 void Add_Start_Data(int start)
 {
@@ -499,7 +499,7 @@ int InterpretCode(string path) {
   }
   file.close();
 
-  int pix = Get_Row_Length();
+  int pix = Get_Row_Length(); //first pixel of data after file header
   Add_Start_Data(pix);
   cur_pix = pix + row_length * 3; //get second row of FILE
   //row_length = row_length + 3;
@@ -564,3 +564,4 @@ int main(int argc, char **argv) {
     }
   }
 }
+//TheNeverMan 2021
