@@ -706,7 +706,7 @@ int main(int argc, char **argv) {
       cout << "--changelog - Shows changelog and exits" << endl;
       return 0;
     } else if (var == "--version") {
-        cout << "Haiku Interpreter v1.3.1" << endl;
+        cout << "Haiku Interpreter v1.3.2" << endl;
         return 0;
     } else if (var == "--super-debug") {
         cout << "Super Debug mode enabled" << endl;
@@ -734,6 +734,7 @@ int main(int argc, char **argv) {
         cout << "1.2 - Improved debug mode" << endl;
         cout << "1.3 - Added super debug mode, hide errors, ignore errors, show promptand detailed errors modes (and changelog)" << endl;
         cout << "1.3.1 - Hide errors mode now works" << endl;
+        cout << "1.3.2 - Minor bug fixes" << endl;
         return 0;
     } else {
         cout << argv[i] << endl;
