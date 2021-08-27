@@ -77,7 +77,7 @@ Errors: H
 r 0 0 0 0 r  
 0 0 p p 0 0  
 0 0 p p 0 0  
-r 0 0 0 0 r 
+r 0 0 0 0 r  
 0 0 0 0 0 0  
 Print pops first value from data queue and prints it to screen as ASCII character.  
   
