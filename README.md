@@ -52,10 +52,10 @@ Area color is saved in red and green color byte of pixel, here is structure of b
 aa aa cc  
 aa - area color  
 cc - command color  
-Valid area colors are:
+Valid area colors are:  
 00 00 - topright area  
 00 FF - topleft area  
-FF 00 - downright area
+FF 00 - downright area  
 FF FF - downleft area  
 
 COMMANDS
