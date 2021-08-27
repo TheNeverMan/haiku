@@ -6,10 +6,21 @@
 #include <time.h>
 #include <queue>
 using namespace std;
+//checks for doebug mode
 bool is_debug = false;
+// super debug mode (very verbose) flag
+bool is_super_debug = false;
+//prompt for ask mode flag
+bool is_ask_prompt = false;
+//continue on errors mode flag
+bool continue_on_errors = false;
+//hide errors mode flag
+bool hide_errors = false;
+//detailed error descriptioms mode flag
+bool detailed_errors = false;
 //table of pixel data
 int size = 1000000;
-unsigned char Table[1000000]; //lmao get ram lol
+unsigned char Table[1000000] {}; //lmao get ram lol also initialize table full of zeroes to prevent segfaults
 //data queue
 queue<unsigned char> Data_Queue;
 //row length
@@ -30,7 +41,7 @@ struct Command
   Com Command;
   Placement Place;
 };
-//returns first pixel of actuall data
+//returns first pixel of actual data
 int Get_Row_Length()
 {
   //minium row length 10 maximum 999
@@ -87,9 +98,14 @@ int Get_Row_Length()
   }
   return i; //first pixel with 255 data in red color byte
 }
+//adds start data to the queue (takes first byte of data as parameter)
 void Add_Start_Data(int start)
 {
   //cout << "Start: " << start << endl;
+  if(is_debug)
+  {
+    cout << "Data Queue Preload enbled, first data byte position: " << start << endl;
+  }
   int end = start + row_length * 3;
   //start = start + 2;
   if(Table[start + 1] == 255)
@@ -98,7 +114,13 @@ void Add_Start_Data(int start)
     {
       //cout << "add" << endl;
       if(Table[start] != 255)
-      Data_Queue.push(Table[start]);
+      {
+        Data_Queue.push(Table[start]);
+        if(is_debug)
+        {
+          cout << "Preloaded Data: " << Table[start] << " (dec) " << (int) Table[start] << endl;
+        }
+      }
       start++;
     }
     Data_Queue.pop();
@@ -340,7 +362,10 @@ char Interpret_Command(Command com)
   }
   if(com.Command == Print)
   {
-    //cout << "Print: ";
+    if(is_super_debug)
+    {
+      cout << "Command: Print" << endl;
+    }
     if(Data_Queue.size() == 0)
     {
       out = 'H';
@@ -351,6 +376,10 @@ char Interpret_Command(Command com)
   }
   if(com.Command == Put)
   {
+    if(is_super_debug)
+    {
+      cout << "Command: Put/Put Back" << endl;
+    }
     int data_pix = cur_pix;
     if(com.Place = TopLeft)
     {
@@ -373,54 +402,96 @@ char Interpret_Command(Command com)
       out = 'I';
       goto end;
     }
+    if(is_super_debug)
+    cout << "Data pixel coordinates: " << data_pix << endl;
     if(Table[data_pix] == 255 && Table[data_pix + 1] == 255 && Table[data_pix + 1] == 255)
     {
       char c = Data_Queue.front();
+      if(is_super_debug)
+      cout << "Command is now Put Back (Data pixel is white), data which will be copied to the end of Data Queue: " << c << " (dec) " << (int) c << endl;
       //Data_Queue.pop();
       Data_Queue.push(c);
     }
     else
     {
+      if(is_super_debug)
+      cout << "Command is now Put (Data pixel is not white), data which will be put on the end of Data Queue: " << Table[data_pix] << " (dec) " << (int) Table[data_pix] << endl;
       Data_Queue.push(Table[data_pix]);
     }
   }
   if(com.Command == Ask)
   {
-    //cout << "Input: ";// << endl;
+    if(is_super_debug)
+    {
+      cout << "Command: Ask" << endl;
+    }
     unsigned int a = 0;
+    if(is_ask_prompt)
+    {
+      cout << endl << "?";
+    }
     cin >> a;
+    if(is_super_debug)
+    cout << "Data which will be put on the end of Data Queue: " << (unsigned char) a << " (dec) " << a << endl;
     Data_Queue.push((unsigned char)a);
   }
   if(com.Command == Inc)
   {
+    if(is_super_debug)
+    {
+      cout << "Command: Increment" << endl;
+    }
     if(Data_Queue.size() == 0)
     {
       out = 'H';
       goto end;
     }
+    if(is_super_debug)
+    cout << "Data Queue front before incrementation: " << Data_Queue.front() << " (dec) " << (int) Data_Queue.front() << endl;
     Data_Queue.front()++;
+    if(is_super_debug)
+    cout << "Data Queue front after incrementation: " << Data_Queue.front() << " (dec) " << (int) Data_Queue.front() << endl;
   }
   if(com.Command == Dec)
   {
+    if(is_super_debug)
+    {
+      cout << "Command: Decrement" << endl;
+    }
     if(Data_Queue.size() == 0)
     {
       out = 'H';
       goto end;
     }
+    if(is_super_debug)
+    cout << "Data Queue front before decrementation: " << Data_Queue.front() << " (dec) " << (int) Data_Queue.front() << endl;
     Data_Queue.front()--;
+    if(is_super_debug)
+    cout << "Data Queue front after decrementation: " << Data_Queue.front() << " (dec) " << (int) Data_Queue.front() << endl;
   }
   if(com.Command == Remove)
   {
+    if(is_super_debug)
+    {
+      cout << "Command: Remove" << endl;
+    }
     if(Data_Queue.size() == 0)
     {
       out = 'H';
       goto end;
     }
+    if(is_super_debug)
+    cout << "Value that is being removed: " << Data_Queue.front() << " (dec) " << (int) Data_Queue.front() << endl;
     Data_Queue.pop();
+    if(is_super_debug)
+    cout << "New front value: " << Data_Queue.front() << " (dec) " << (int) Data_Queue.front();
   }
   if(com.Command == If)
   {
-    //cout << "If: ";
+    if(is_super_debug)
+    {
+      cout << "Command: If" << endl;
+    }
     if(Data_Queue.size() == 0)
     {
       out = 'H';
@@ -431,9 +502,12 @@ char Interpret_Command(Command com)
       out = 'A';
       goto end;
     }
+    if(is_super_debug)
+    cout << "Data Queue front value: " << Data_Queue.front() << " (dec) " << (int) Data_Queue.front() << " Data Queue back value: " << Data_Queue.back() << " (dec) " << (int) Data_Queue.back() << endl;
     if(Data_Queue.front() != Data_Queue.back())
     {
-
+      if(is_super_debug)
+      cout << "Values are not equal" << endl;
       int data_pix = cur_pix;
       if(com.Place = TopLeft)
       {
@@ -512,11 +586,38 @@ int InterpretCode(string path) {
       cout << "Red: " << (int)Table[cur_pix] << endl;
       cout << "Green: " << (int)Table[cur_pix + 1] << endl;
       cout << "Blue: " << (int)Table[cur_pix + 2] << endl;
+      cout << "Data Queue size " << Data_Queue.size() << endl;
+      if(Data_Queue.size() == 0)
+      {
+        cout << "Data Queue is empty!" << endl;
+      }
+      else if (Data_Queue.size() == 1)
+      {
+        cout << "Data Queue has one element: " << Data_Queue.front() << " (dec) " << (int) Data_Queue.front() << endl;
+      }
+      else
+      {
+        cout << "Data Queue front: " << Data_Queue.front() << " (dec) " << (int) Data_Queue.front() << endl << "Data Queue back: " << Data_Queue.back() << " (dec) " << (int) Data_Queue.back() << endl;
+      }
     }
     Command com = Get_Command();
     if(com.Command == white)
     {
-      cout << "K" << endl; // error code for "got white pixel"
+      if(detailed_errors)
+      {
+        if(!hide_errors)
+        {
+          cout << "Error: Got white pixel!" << endl;
+        }
+      }
+      else
+      {
+        if(!hide_errors)
+        {
+          cout << "K" << endl; // error code for "got white pixel"
+        }
+      }
+      if(!continue_on_errors)
       loop = false;
     }
     if(com.Command == black)
@@ -525,13 +626,61 @@ int InterpretCode(string path) {
     }
     if(com.Command == none || com.Place == null)
     {
-      cout << "U" << endl; // error code for "got invalid color"
+      if(detailed_errors)
+      {
+        if(!hide_errors)
+        {
+          cout << "Error: Got invalid color!" << endl;
+        }
+      }
+      else
+      {
+        if(!hide_errors)
+        {
+          cout << "U" << endl; // error code for "got invalid color"
+        }
+      }
+      if(!continue_on_errors)
       loop = false;
     }
     char out = Interpret_Command(com);
     if(out != ' ')
     {
-      cout << out << endl;
+      if(detailed_errors)
+      {
+        if(!hide_errors)
+        {
+          switch (out)
+          {
+            case 'H':
+            cout << "Error: Data Queue is empty!" << endl;
+            break;
+            case 'A':
+            cout << "Error: Data Queue is too small!" << endl;
+            break;
+            case 'I':
+            cout << "Error: Got invalid pixel!" << endl;
+            break;
+            case 'K':
+            cout << "Error: Got white pixel!" << endl;
+            break;
+            case 'U':
+            cout << "Error: Got invalid color!" << endl;
+            break;
+            default:
+            cout << "Error: Other Error!" << endl;
+            break;
+          }
+        }
+      }
+      else
+      {
+        if(!hide_errors)
+        {
+          cout << out << endl;
+        }
+      }
+      if(!continue_on_errors)
       loop = false;
     }
   }
@@ -547,19 +696,49 @@ int main(int argc, char **argv) {
       cout << "USAGE:" << endl
            << "hk [ARGS] [INPUT FILE]" << endl;
       cout << "--debug - Interprets file in debug mode" << endl;
-      cout << "--help  - Prints help message" << endl;
+      cout << "--super-debug - Interprets file in very verbose mode producing a lot of debug information" << endl;
+      cout << "--detailed-errors - Shows detailed error descriptions instead of standard one letter ones" << endl;
+      cout << "--ignore-errors - Continues interpreting program even if errors happen" << endl;
+      cout << "--hide-errors - Hides all error messages" << endl;
+      cout << "--show-prompt - Shows question mark when waiting for user data" << endl;
+      cout << "--help  - Prints this message" << endl;
       cout << "--version - Prints version info" << endl;
+      cout << "--changelog - Shows changelog and exits" << endl;
       return 0;
     } else if (var == "--version") {
-      cout << "Haiku Interpreter v1.0" << endl;
-      return 0;
+        cout << "Haiku Interpreter v1.3.1" << endl;
+        return 0;
+    } else if (var == "--super-debug") {
+        cout << "Super Debug mode enabled" << endl;
+        is_debug = true;
+        is_super_debug = true;
+    } else if (var == "--detailed-errors") {
+        cout << "Detailed error descriptions mode enabled" << endl;
+        detailed_errors = true;
+    } else if (var == "--ignore-errors") {
+        cout << "Ignoring all errors" << endl;
+        continue_on_errors = true;
+    } else if (var == "--hide-errors") {
+        cout << "No error messages mode enabled" << endl;
+        hide_errors = true;
+    } else if (var == "--show-prompt") {
+        cout << "Showing prompt" << endl;
+        is_ask_prompt = true;
     } else if (var == "--debug") {
-      cout << "Debug mode enabled" << endl;
-      is_debug = true;
+        cout << "Debug mode enabled" << endl;
+        is_debug = true;
+    } else if (var == "--changelog") {
+        cout << "Changelog: " << endl;
+        cout << "1.0 - First version" << endl;
+        cout << "1.1 - Added support for 999x999 files" << endl;
+        cout << "1.2 - Improved debug mode" << endl;
+        cout << "1.3 - Added super debug mode, hide errors, ignore errors, show promptand detailed errors modes (and changelog)" << endl;
+        cout << "1.3.1 - Hide errors mode now works" << endl;
+        return 0;
     } else {
-      cout << argv[i] << endl;
-      int out = 0;
-      out = InterpretCode(argv[i]);
+        cout << argv[i] << endl;
+        int out = 0;
+        out = InterpretCode(argv[i]);
       return out;
     }
   }
