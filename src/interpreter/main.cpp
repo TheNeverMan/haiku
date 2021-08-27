@@ -381,19 +381,19 @@ char Interpret_Command(Command com)
       cout << "Command: Put/Put Back" << endl;
     }
     int data_pix = cur_pix;
-    if(com.Place = TopLeft)
+    if(com.Place == TopLeft)
     {
       data_pix = data_pix - row_length * 3;
     }
-    if(com.Place = TopRight)
+    if(com.Place == TopRight)
     {
       data_pix = data_pix - row_length * 3;
     }
-    if(com.Place = DownLeft)
+    if(com.Place == DownLeft)
     {
       data_pix = data_pix + row_length * 3;
     }
-    if(com.Place = DownRight)
+    if(com.Place == DownRight)
     {
       data_pix = data_pix + row_length * 3;
     }
@@ -509,19 +509,19 @@ char Interpret_Command(Command com)
       if(is_super_debug)
       cout << "Values are not equal" << endl;
       int data_pix = cur_pix;
-      if(com.Place = TopLeft)
+      if(com.Place == TopLeft)
       {
         data_pix = data_pix - row_length * 3;
       }
-      if(com.Place = TopRight)
+      if(com.Place == TopRight)
       {
         data_pix = data_pix - row_length * 3;
       }
-      if(com.Place = DownLeft)
+      if(com.Place == DownLeft)
       {
         data_pix = data_pix + row_length * 3;
       }
-      if(com.Place = DownRight)
+      if(com.Place == DownRight)
       {
         data_pix = data_pix + row_length * 3;
       }
