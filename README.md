@@ -103,7 +103,7 @@ Errors: H
 0 0 0 0 0 0  
 Increment increments first value in data queue by one.
   
-Increment  
+Decrement  
 Color: 44 (xx xx 44)  
 Errors: H  
 0 0 0 0 0 0  
