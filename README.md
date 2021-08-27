@@ -77,7 +77,7 @@ Errors: H
 r 0 0 0 0 r  
 0 0 p p 0 0  
 0 0 p p 0 0  
-r 0 0 0 0 r 
+r 0 0 0 0 r  
 0 0 0 0 0 0  
 Print pops first value from data queue and prints it to screen as ASCII character.  
   
@@ -103,7 +103,7 @@ Errors: H
 0 0 0 0 0 0  
 Increment increments first value in data queue by one.
   
-Increment  
+Decrement  
 Color: 44 (xx xx 44)  
 Errors: H  
 0 0 0 0 0 0  
@@ -115,7 +115,7 @@ Errors: H
 Decrement decrements first value in data queue by one.
   
 Remove  
-Color: 55 (xx xx 55)  
+Color: 66 (xx xx 66)  
 Errors: H  
 0 0 0 0 0 0  
 0 0 0 0 0 0  
@@ -126,7 +126,7 @@ r 0 p p 0 r
 Remove removes first element from data queue.
   
 Put/Put Back  
-Color: 66 (xx xx 66)  
+Color: 77 (xx xx 77)  
 Error: H  
 0 r 0 0 r 0  
 0 0 x x 0 0  
@@ -136,7 +136,7 @@ Error: H
 Put if x pixel is white (00 00 00) copies first element from data queue and puts at the end of queue (Put Back). If x pixel is not white it puts value of first byte of x pixel at the end of data queue (Put).  
   
 If  
-Color: 77 (xx xx 77)  
+Color: 55 (xx xx 55)  
 Error: H A  
 r 0 0 0 0 r  
 0 0 x x 0 0  
